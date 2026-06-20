@@ -1,4 +1,4 @@
-# Handoff: Website Nhật Minh Academy
+# Website Nhật Minh Academy
 
 ## Overview
 Website giới thiệu **Nhật Minh Academy** — học viện IT đào tạo theo lộ trình từ Tiểu học → THCS → THPT → Kỹ năng đi làm. Trang gồm: giới thiệu lộ trình, danh sách & chi tiết khóa học, học phí, blog (có trang đọc bài), giới thiệu giảng viên, và form đăng ký học thử.
