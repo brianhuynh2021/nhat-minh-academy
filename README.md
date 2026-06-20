@@ -3,7 +3,7 @@
 ## Overview
 Website giới thiệu **Nhật Minh Academy** — học viện IT đào tạo theo lộ trình từ Tiểu học → THCS → THPT → Kỹ năng đi làm. Trang gồm: giới thiệu lộ trình, danh sách & chi tiết khóa học, học phí, blog (có trang đọc bài), giới thiệu giảng viên, và form đăng ký học thử.
 
-Mục tiêu của gói này: giúp một lập trình viên (hoặc Claude Code) **dựng lại thiết kế này trong một codebase thật** để phát triển, đăng lên GitHub và đưa online lâu dài.
+Mục tiêu của gói này: giúp một lập trình viên **dựng lại thiết kế này trong một codebase thật** để phát triển, đăng lên GitHub và đưa online lâu dài.
 
 ## About the Design Files
 Các file trong gói này là **bản tham chiếu thiết kế viết bằng HTML** — prototype thể hiện giao diện và hành vi mong muốn, **không phải code production để copy nguyên xi**.
@@ -135,4 +135,4 @@ git remote add origin https://github.com/<tai-khoan>/nhat-minh-academy.git
 git branch -M main
 git push -u origin main
 ```
-Sau đó mở dự án bằng **Claude Code** (hoặc giao cho lập trình viên) kèm README này để dựng lại bằng Next.js và phát triển tiếp (đăng nhập, CMS, hosting...). Deploy nhanh: **Vercel** (kết nối thẳng repo GitHub).
+Sau đó mở dự án (hoặc giao cho lập trình viên) kèm README này để dựng lại bằng Next.js và phát triển tiếp (đăng nhập, CMS, hosting...). Deploy nhanh: **Vercel** (kết nối thẳng repo GitHub).
