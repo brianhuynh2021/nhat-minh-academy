@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{margin:0}
+    button{font-family:inherit;cursor:pointer;border:none;background:none}
+    input,select,textarea{font-family:inherit}
+    a{color:inherit;text-decoration:none}
+    @keyframes nmRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes nmFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+    @keyframes nmFloat2{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+    @keyframes nmPulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.7);opacity:0}}
+    ::selection{background:#1E56E3;color:#fff}
+  </style>
+</helmet>
+
+<div style="font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#102A4C;background:#F5F8FD;min-height:100vh;-webkit-font-smoothing:antialiased;line-height:1.55">
+
+  <!-- ============ NAV ============ -->
+  <header style="position:sticky;top:0;z-index:50;background:rgba(245,248,253,0.82);backdrop-filter:blur(12px);border-bottom:1px solid #E4EAF3">
+    <div style="max-width:1180px;margin:0 auto;padding:0 24px;height:72px;display:flex;align-items:center;gap:32px">
+      <button onClick="{{ goHome }}" style="display:flex;align-items:center;gap:11px">
+        <span style="position:relative;width:42px;height:42px;border-radius:50%;background:linear-gradient(145deg,#4C86FF,#1E56E3 55%,#1340B8);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(30,86,227,.4),inset 0 1px 0 rgba(255,255,255,.4)">
+          <span style="position:absolute;inset:0;border-radius:50%;background:linear-gradient(160deg,rgba(255,255,255,.32),transparent 55%)"></span>
+          <span style="position:relative;font-weight:800;font-size:16px;letter-spacing:-1px;color:#fff">N<span style="color:#9FC0FF">M</span></span>
+        </span>
+        <span style="font-weight:700;font-size:19px;color:#0B1E3F;letter-spacing:-.3px">Nhật Minh <span style="color:#1E56E3">Academy</span></span>
+      </button>
+      <nav style="margin-left:auto;display:flex;align-items:center;gap:6px">
+        <sc-for list="{{ navLinks }}" as="link" hint-placeholder-count="5">
+          <button onClick="{{ link.go }}" style="padding:9px 14px;border-radius:9px;font-size:14.5px;font-weight:500;color:{{ link.color }}">{{ link.label }}</button>
+        </sc-for>
+        <button onClick="{{ goRegister }}" style="margin-left:10px;padding:11px 20px;border-radius:10px;background:#1E56E3;color:#fff;font-weight:600;font-size:14.5px;box-shadow:0 6px 16px rgba(30,86,227,.28)" style-hover="background:#1746C4;transform:translateY(-1px)">Đăng ký học thử</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============ HOME ============ -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <main>
+    <!-- HERO -->
+    <section style="position:relative;overflow:hidden;background:linear-gradient(180deg,#0B1E3F 0%,#0E2A55 100%);color:#fff">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.07) 1px,transparent 0);background-size:26px 26px;opacity:.6"></div>
+      <div style="max-width:1180px;margin:0 auto;padding:84px 24px 92px;position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center">
+        <div style="">
+          <span style="display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:100px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);font-size:13px;font-weight:500;color:#BFD2FF">🎓 Lộ trình IT liền mạch</span>
+          <h1 style="font-family:'Lora',serif;font-weight:700;font-size:50px;line-height:1.14;margin-top:22px;letter-spacing:-.3px;text-wrap:balance">Học công nghệ <span style="color:#6FA0FF">đúng lộ trình</span> theo từng cấp lớp</h1>
+          <p style="margin-top:22px;font-size:18px;line-height:1.6;color:#C2CEE3;max-width:520px">Nhật Minh Academy xây dựng chương trình IT bám sát từng độ tuổi — từ Scratch &amp; tư duy máy tính cho học sinh tiểu học, đến lập trình, AI và kỹ năng đi làm thực chiến.</p>
+          <div style="margin-top:34px;display:flex;gap:14px;flex-wrap:wrap">
+            <button onClick="{{ goRoadmap }}" style="padding:15px 26px;border-radius:12px;background:#1E56E3;color:#fff;font-weight:600;font-size:16px;box-shadow:0 10px 24px rgba(30,86,227,.4)" style-hover="background:#3768E8;transform:translateY(-2px)">Xem lộ trình học →</button>
+            <button onClick="{{ goCourses }}" style="padding:15px 26px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:#fff;font-weight:600;font-size:16px" style-hover="background:rgba(255,255,255,.16)">Khám phá khóa học</button>
+          </div>
+          <div style="margin-top:42px;display:flex;gap:36px">
+            <sc-for list="{{ heroStats }}" as="s" hint-placeholder-count="3">
+              <div>
+                <div style="font-family:'Lora',serif;font-size:30px;font-weight:700;color:#fff">{{ s.num }}</div>
+                <div style="font-size:13.5px;color:#9DAFCC;margin-top:2px">{{ s.label }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="">
+          <div style="position:relative;aspect-ratio:4/3.4;display:flex;align-items:center;justify-content:center">
+            <div style="position:absolute;width:78%;height:78%;background:radial-gradient(circle,#2E6BFF 0%,transparent 68%);opacity:.55"></div>
+            <div style="position:relative;width:90%;background:#0A1A38;border:1px solid rgba(255,255,255,.16);border-radius:16px;box-shadow:0 34px 64px rgba(0,0,0,.5);overflow:hidden">
+              <div style="display:flex;align-items:center;gap:7px;padding:13px 16px;background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.09)">
+                <span style="width:11px;height:11px;border-radius:50%;background:#FF6058"></span>
+                <span style="width:11px;height:11px;border-radius:50%;background:#FFBD2E"></span>
+                <span style="width:11px;height:11px;border-radius:50%;background:#28C840"></span>
+                <span style="margin-left:9px;font-family:monospace;font-size:12px;color:#7E93BC">bai_hoc_1.py</span>
+              </div>
+              <div style="padding:20px 20px 22px;font-family:'SF Mono',Menlo,monospace;font-size:14px;line-height:2.05">
+                <div style="color:#5E7099"># Dòng code đầu tiên của bé</div>
+                <div><span style="color:#6FA0FF">print</span><span style="color:#C7D2E8">(</span><span style="color:#7FE0A8">"Xin chào!"</span><span style="color:#C7D2E8">)</span></div>
+                <div><span style="color:#FF8FB0">for</span><span style="color:#C7D2E8"> i </span><span style="color:#FF8FB0">in</span><span style="color:#6FA0FF"> range</span><span style="color:#C7D2E8">(</span><span style="color:#F2C97D">5</span><span style="color:#C7D2E8">):</span></div>
+                <div style="padding-left:26px"><span style="color:#6FA0FF">ve_ngoi_sao</span><span style="color:#C7D2E8">(i)</span><span style="display:inline-block;width:9px;height:18px;background:#6FA0FF;margin-left:3px;vertical-align:-3px;border-radius:1px;animation:nmFloat 1.1s steps(2) infinite"></span></div>
+              </div>
+            </div>
+            <div style="position:absolute;bottom:6%;right:-4%;background:#fff;color:#102A4C;padding:12px 16px;border-radius:13px;box-shadow:0 18px 38px rgba(0,0,0,.28);display:flex;align-items:center;gap:11px;animation:nmFloat 4s ease-in-out infinite">
+              <span style="width:38px;height:38px;border-radius:10px;background:#E4F4EC;display:flex;align-items:center;justify-content:center;font-size:18px">⭐</span>
+              <div><div style="font-weight:700;font-size:14px">Chạy thành công!</div><div style="font-size:12px;color:#6A7794">★★★★★ vẽ 5 ngôi sao</div></div>
+            </div>
+            <div style="position:absolute;top:5%;left:-5%;background:#1E56E3;color:#fff;padding:9px 14px;border-radius:11px;box-shadow:0 14px 30px rgba(30,86,227,.45);font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;animation:nmFloat2 4.6s ease-in-out infinite">▶ Học qua dự án</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOGOS / TRUST STRIP -->
+    <section style="background:#fff;border-bottom:1px solid #E4EAF3">
+      <div style="max-width:1180px;margin:0 auto;padding:26px 24px;display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap">
+        <span style="font-size:13px;color:#8593AD;font-weight:500">Đào tạo theo chuẩn:</span>
+        <sc-for list="{{ trustLogos }}" as="t" hint-placeholder-count="5">
+          <span style="font-family:'Lora',serif;font-weight:600;font-size:18px;color:#A9B4C9">{{ t }}</span>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- LEVELS / ROADMAP OVERVIEW -->
+    <section style="max-width:1180px;margin:0 auto;padding:88px 24px">
+      <div style="text-align:center;max-width:680px;margin:0 auto">
+        <span style="font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#1E56E3">Lộ trình 4 cấp độ</span>
+        <h2 style="font-family:'Lora',serif;font-size:40px;font-weight:700;margin-top:12px;letter-spacing:-.5px;color:#0B1E3F">Một hành trình liền mạch từ tiểu học đến đi làm</h2>
+        <p style="margin-top:14px;font-size:17px;color:#55617A">Mỗi cấp học có chương trình riêng, kế thừa và nâng cao từ cấp trước. Học viên luôn biết mình đang ở đâu và sẽ đi đến đâu.</p>
+      </div>
+      <div style="margin-top:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px">
+        <sc-for list="{{ levels }}" as="lv" hint-placeholder-count="4">
+          <button onClick="{{ lv.open }}" style="text-align:left;background:#fff;border:1px solid #E4EAF3;border-radius:18px;padding:26px 22px;box-shadow:0 1px 3px rgba(16,42,76,.05);transition:transform .18s,box-shadow .18s" style-hover="transform:translateY(-4px);box-shadow:0 18px 34px rgba(16,42,76,.1)">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <span style="width:48px;height:48px;border-radius:13px;background:{{ lv.tint }};color:{{ lv.color }};display:flex;align-items:center;justify-content:center;font-size:24px">{{ lv.icon }}</span>
+              <span style="font-family:'Lora',serif;font-size:32px;font-weight:700;color:#EAEEF5">{{ lv.step }}</span>
+            </div>
+            <div style="margin-top:18px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:{{ lv.color }}">{{ lv.grades }}</div>
+            <div style="font-family:'Lora',serif;font-size:21px;font-weight:700;margin-top:5px;color:#0B1E3F">{{ lv.tag }}</div>
+            <p style="margin-top:10px;font-size:14px;color:#55617A;line-height:1.55">{{ lv.short }}</p>
+            <div style="margin-top:16px;font-size:13.5px;font-weight:600;color:{{ lv.color }}">Xem chi tiết →</div>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- FEATURED COURSES -->
+    <section style="background:#fff;border-top:1px solid #E4EAF3;border-bottom:1px solid #E4EAF3">
+      <div style="max-width:1180px;margin:0 auto;padding:88px 24px">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+          <div>
+            <span style="font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#1E56E3">Khóa học nổi bật</span>
+            <h2 style="font-family:'Lora',serif;font-size:40px;font-weight:700;margin-top:12px;letter-spacing:-.5px;color:#0B1E3F">Bắt đầu từ đâu cũng có khóa phù hợp</h2>
+          </div>
+          <button onClick="{{ goCourses }}" style="padding:12px 20px;border-radius:10px;border:1px solid #D3DCEB;color:#1E56E3;font-weight:600;font-size:14.5px" style-hover="background:#F0F4FC">Tất cả khóa học →</button>
+        </div>
+        <div style="margin-top:42px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px">
+          <sc-for list="{{ featuredCourses }}" as="c" hint-placeholder-count="4">
+            <button onClick="{{ c.open }}" style="text-align:left;background:#F8FAFE;border:1px solid #E4EAF3;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s" style-hover="transform:translateY(-4px);box-shadow:0 18px 34px rgba(16,42,76,.1)">
+              <div style="height:120px;background:{{ c.tint }};display:flex;align-items:center;justify-content:center;position:relative">
+                <span style="font-size:42px">{{ c.icon }}</span>
+                <span style="position:absolute;top:12px;left:12px;padding:5px 11px;border-radius:7px;background:rgba(255,255,255,.85);font-size:11.5px;font-weight:700;color:{{ c.color }}">{{ c.levelTag }}</span>
+              </div>
+              <div style="padding:18px 18px 20px;display:flex;flex-direction:column;flex:1">
+                <div style="font-family:'Lora',serif;font-size:18px;font-weight:700;color:#0B1E3F;line-height:1.25">{{ c.title }}</div>
+                <p style="margin-top:8px;font-size:13.5px;color:#55617A;flex:1">{{ c.blurb }}</p>
+                <div style="margin-top:16px;display:flex;align-items:flex-end;justify-content:space-between;border-top:1px solid #E9EEF6;padding-top:13px">
+                  <span style="font-size:12.5px;color:#8593AD">{{ c.duration }}</span>
+                  <span style="text-align:right"><span style="display:block;font-size:11px;color:#8593AD">chỉ từ</span><span style="font-weight:700;font-size:15px;color:#1E56E3">{{ c.monthlyLabel }}</span><span style="font-size:11px;color:#8593AD">/tháng</span></span>
+                </div>
+              </div>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY US -->
+    <section style="max-width:1180px;margin:0 auto;padding:88px 24px">
+      <div style="display:grid;grid-template-columns:.92fr 1.08fr;gap:56px;align-items:center">
+        <div style="border-radius:22px;overflow:hidden;aspect-ratio:4/3.6;border:1px solid #E4EAF3;background:linear-gradient(160deg,#EEF3FE,#F7F9FE);position:relative;padding:30px 28px;display:flex;flex-direction:column;justify-content:center">
+          <div style="position:absolute;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(30,86,227,.12),transparent 70%);top:-30px;right:-20px"></div>
+          <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8593AD;margin-bottom:18px">Lộ trình của học viên</div>
+          <div style="position:relative">
+            <div style="position:absolute;left:22px;top:14px;bottom:14px;width:2px;background:linear-gradient(#D9802E,#1E9E6A,#5B53D6,#D14D6B);border-radius:2px"></div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;align-items:center;gap:16px;position:relative">
+                <span style="flex:none;width:46px;height:46px;border-radius:13px;background:#fff;color:#D9802E;display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 4px 12px rgba(16,42,76,.1);z-index:1">🧩</span>
+                <div style="flex:1;background:#fff;border-radius:12px;padding:12px 15px;box-shadow:0 2px 8px rgba(16,42,76,.06)"><div style="font-weight:700;font-size:14px;color:#0B1E3F">Tiểu học · Scratch</div><div style="height:6px;border-radius:4px;background:#F0E2D2;margin-top:7px"><div style="width:100%;height:100%;border-radius:4px;background:#D9802E"></div></div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;position:relative">
+                <span style="flex:none;width:46px;height:46px;border-radius:13px;background:#fff;color:#1E9E6A;display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 4px 12px rgba(16,42,76,.1);z-index:1">🐍</span>
+                <div style="flex:1;background:#fff;border-radius:12px;padding:12px 15px;box-shadow:0 2px 8px rgba(16,42,76,.06)"><div style="font-weight:700;font-size:14px;color:#0B1E3F">THCS · Python &amp; Web</div><div style="height:6px;border-radius:4px;background:#D9EEE3;margin-top:7px"><div style="width:80%;height:100%;border-radius:4px;background:#1E9E6A"></div></div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;position:relative">
+                <span style="flex:none;width:46px;height:46px;border-radius:13px;background:#fff;color:#5B53D6;display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 4px 12px rgba(16,42,76,.1);z-index:1">🤖</span>
+                <div style="flex:1;background:#fff;border-radius:12px;padding:12px 15px;box-shadow:0 2px 8px rgba(16,42,76,.06)"><div style="font-weight:700;font-size:14px;color:#0B1E3F">THPT · AI &amp; Dự án</div><div style="height:6px;border-radius:4px;background:#E2DFF8;margin-top:7px"><div style="width:55%;height:100%;border-radius:4px;background:#5B53D6"></div></div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;position:relative">
+                <span style="flex:none;width:46px;height:46px;border-radius:13px;background:#fff;color:#D14D6B;display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 4px 12px rgba(16,42,76,.1);z-index:1">💼</span>
+                <div style="flex:1;background:#fff;border-radius:12px;padding:12px 15px;box-shadow:0 2px 8px rgba(16,42,76,.06)"><div style="font-weight:700;font-size:14px;color:#0B1E3F">Đi làm · Kỹ năng nghề</div><div style="height:6px;border-radius:4px;background:#F4DDE3;margin-top:7px"><div style="width:30%;height:100%;border-radius:4px;background:#D14D6B"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span style="font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#1E56E3">Vì sao chọn Nhật Minh</span>
+          <h2 style="font-family:'Lora',serif;font-size:38px;font-weight:700;margin-top:12px;letter-spacing:-.5px;color:#0B1E3F">Học để hiểu, làm để giỏi</h2>
+          <div style="margin-top:30px;display:flex;flex-direction:column;gap:22px">
+            <sc-for list="{{ whyUs }}" as="w" hint-placeholder-count="4">
+              <div style="display:flex;gap:16px">
+                <span style="flex:none;width:46px;height:46px;border-radius:12px;background:#EAF0FE;color:#1E56E3;display:flex;align-items:center;justify-content:center;font-size:22px">{{ w.icon }}</span>
+                <div>
+                  <div style="font-weight:700;font-size:16.5px;color:#0B1E3F">{{ w.title }}</div>
+                  <p style="margin-top:4px;font-size:14.5px;color:#55617A">{{ w.desc }}</p>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing" style="background:#0B1E3F;color:#fff;scroll-margin-top:80px">
+      <div style="max-width:1180px;margin:0 auto;padding:88px 24px">
+        <div style="text-align:center;max-width:640px;margin:0 auto">
+          <span style="font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6FA0FF">Học phí</span>
+          <h2 style="font-family:'Lora',serif;font-size:40px;font-weight:700;margin-top:12px;letter-spacing:-.5px">Gói linh hoạt cho từng nhu cầu</h2>
+          <p style="margin-top:14px;font-size:16.5px;color:#AEBBD4">Học phí tính theo tháng, từ 1.000.000đ/tháng tùy cấp học. Đăng ký combo càng dài, ưu đãi càng lớn — buổi học thử đầu tiên miễn phí.</p>
+        </div>
+        <div style="margin-top:46px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start">
+          <sc-for list="{{ plans }}" as="p" hint-placeholder-count="3">
+            <div style="background:{{ p.bg }};border:1px solid {{ p.border }};border-radius:20px;padding:30px 26px;position:relative;color:{{ p.ink }}">
+              <sc-if value="{{ p.featured }}" hint-placeholder-val="{{ true }}">
+                <span style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);padding:6px 16px;border-radius:100px;background:#1E56E3;color:#fff;font-size:12px;font-weight:700;white-space:nowrap;box-shadow:0 8px 18px rgba(30,86,227,.45)">Phổ biến nhất</span>
+              </sc-if>
+              <div style="font-weight:700;font-size:18px">{{ p.name }}</div>
+              <p style="margin-top:6px;font-size:13.5px;color:{{ p.sub }}">{{ p.desc }}</p>
+              <div style="margin-top:20px;display:flex;align-items:baseline;gap:7px">
+                <span style="font-size:15px;font-weight:600;color:{{ p.sub }}">{{ p.pre }}</span>
+                <span style="font-family:'Lora',serif;font-size:38px;font-weight:700">{{ p.price }}</span>
+                <span style="font-size:14px;color:{{ p.sub }}">{{ p.unit }}</span>
+              </div>
+              <div style="margin-top:22px;display:flex;flex-direction:column;gap:11px">
+                <sc-for list="{{ p.features }}" as="f" hint-placeholder-count="4">
+                  <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px"><span style="color:{{ p.check }};font-weight:700">✓</span><span>{{ f }}</span></div>
+                </sc-for>
+              </div>
+              <button onClick="{{ goRegister }}" style="margin-top:24px;width:100%;padding:13px;border-radius:11px;background:{{ p.btnBg }};color:{{ p.btnInk }};font-weight:700;font-size:15px;border:{{ p.btnBorder }}" style-hover="opacity:.92">{{ p.cta }}</button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG -->
+    <section id="blog" style="max-width:1180px;margin:0 auto;padding:88px 24px;scroll-margin-top:80px">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+        <div>
+          <span style="font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#1E56E3">Blog &amp; Tin tức</span>
+          <h2 style="font-family:'Lora',serif;font-size:40px;font-weight:700;margin-top:12px;letter-spacing:-.5px;color:#0B1E3F">Kiến thức &amp; định hướng cho phụ huynh</h2>
+        </div>
+      </div>
+      <div style="margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+        <sc-for list="{{ posts }}" as="post" hint-placeholder-count="3">
+          <article onClick="{{ post.open }}" style="background:#fff;border:1px solid #E4EAF3;border-radius:18px;overflow:hidden;cursor:pointer;transition:transform .18s,box-shadow .18s" style-hover="transform:translateY(-4px);box-shadow:0 18px 34px rgba(16,42,76,.1)">
+            <div style="height:170px;position:relative;overflow:hidden;background:linear-gradient(135deg,{{ post.g1 }},{{ post.g2 }});display:flex;align-items:center;justify-content:center">
+              <div style="position:absolute;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.18);top:-34px;right:-22px"></div>
+              <div style="position:absolute;width:84px;height:84px;border-radius:50%;background:rgba(255,255,255,.12);bottom:-26px;left:22px"></div>
+              <div style="position:relative;width:66px;height:66px;border-radius:18px;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 12px 26px rgba(0,0,0,.15)">{{ post.icon }}</div>
+            </div>
+            <div style="padding:20px 20px 24px">
+              <span style="font-size:12px;font-weight:700;color:#1E56E3;letter-spacing:.04em">{{ post.tag }}</span>
+              <h3 style="font-family:'Lora',serif;font-size:19px;font-weight:700;margin-top:8px;color:#0B1E3F;line-height:1.3">{{ post.title }}</h3>
+              <p style="margin-top:9px;font-size:14px;color:#55617A">{{ post.excerpt }}</p>
+              <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between"><span style="font-size:12.5px;color:#8593AD">{{ post.date }}</span><span style="font-size:13px;font-weight:600;color:#1E56E3">Đọc tiếp →</span></div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- TEACHERS -->
+    <section id="teachers" style="background:#fff;border-top:1px solid #E4EAF3;scroll-margin-top:80px">
+      <div style="max-width:1180px;margin:0 auto;padding:88px 24px">
+        <div style="text-align:center;max-width:660px;margin:0 auto">
+          <span style="font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#1E56E3">Đội ngũ giảng viên</span>
+          <h2 style="font-family:'Lora',serif;font-size:40px;font-weight:700;margin-top:12px;letter-spacing:-.5px;color:#0B1E3F">Người trực tiếp đồng hành cùng học viên</h2>
+          <p style="margin-top:14px;font-size:17px;color:#55617A">Giảng viên giàu kinh nghiệm thực chiến, tận tâm với từng học viên trong mỗi buổi học.</p>
+        </div>
+        <div style="margin-top:48px;display:flex;flex-wrap:wrap;justify-content:center;gap:26px">
+          <sc-for list="{{ teachers }}" as="t" hint-placeholder-count="1">
+            <div style="width:420px;max-width:100%;background:#F8FAFE;border:1px solid #E4EAF3;border-radius:22px;padding:34px 32px;box-shadow:0 1px 3px rgba(16,42,76,.05);display:flex;flex-direction:column;align-items:center;text-align:center">
+              <div style="position:relative;width:108px;height:108px;margin-bottom:8px">
+                <div style="width:108px;height:108px;border-radius:50%;background:linear-gradient(135deg,#2E6BFF,#1746C4);display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-weight:700;font-size:40px;color:#fff;box-shadow:0 14px 30px rgba(30,86,227,.38)">{{ t.initials }}</div>
+                <span style="position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:#1E9E6A;color:#fff;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:100px;white-space:nowrap;box-shadow:0 6px 14px rgba(30,158,106,.4)">{{ t.exp }}</span>
+              </div>
+              <div style="font-family:'Lora',serif;font-size:24px;font-weight:700;margin-top:14px;color:#0B1E3F">{{ t.name }}</div>
+              <div style="font-size:14px;font-weight:600;color:#1E56E3;margin-top:4px">{{ t.role }}</div>
+              <div style="margin-top:18px;display:flex;flex-direction:column;gap:9px;align-items:flex-start;width:100%;max-width:300px;margin-left:auto;margin-right:auto">
+                <sc-for list="{{ t.creds }}" as="cr" hint-placeholder-count="3">
+                  <div style="display:flex;gap:11px;align-items:center;font-size:14.5px;color:#46536E"><span style="font-size:17px">{{ cr.icon }}</span><span>{{ cr.text }}</span></div>
+                </sc-for>
+              </div>
+              <p style="margin-top:20px;font-size:14.5px;color:#55617A;line-height:1.6;border-top:1px solid #E9EEF6;padding-top:18px">{{ t.bio }}</p>
+              <div style="margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center">
+                <sc-for list="{{ t.tags }}" as="tg" hint-placeholder-count="4">
+                  <span style="padding:6px 13px;border-radius:100px;background:#EAF0FE;color:#1E56E3;font-size:12.5px;font-weight:600">{{ tg }}</span>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="max-width:1180px;margin:0 auto;padding:0 24px 92px">
+      <div style="background:linear-gradient(120deg,#1E56E3,#1746C4);border-radius:26px;padding:60px 56px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;box-shadow:0 30px 60px rgba(30,86,227,.32);position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.12) 1px,transparent 0);background-size:24px 24px"></div>
+        <div style="position:relative;max-width:560px">
+          <h2 style="font-family:'Lora',serif;font-size:36px;font-weight:700;letter-spacing:-.5px">Đăng ký học thử miễn phí</h2>
+          <p style="margin-top:12px;font-size:17px;color:#D9E3FB">Trải nghiệm 1 buổi học cùng giảng viên tại Nhật Minh Academy.</p>
+        </div>
+        <button onClick="{{ goRegister }}" style="position:relative;padding:17px 32px;border-radius:13px;background:#fff;color:#1E56E3;font-weight:700;font-size:17px;white-space:nowrap;box-shadow:0 12px 28px rgba(0,0,0,.18)" style-hover="transform:translateY(-2px)">Đăng ký ngay →</button>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ============ ROADMAP PAGE ============ -->
+  <sc-if value="{{ isRoadmap }}" hint-placeholder-val="{{ true }}">
+  <main>
+    <section style="background:#0B1E3F;color:#fff">
+      <div style="max-width:1180px;margin:0 auto;padding:64px 24px 70px">
+        <span style="font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6FA0FF">Lộ trình học</span>
+        <h1 style="font-family:'Lora',serif;font-size:46px;font-weight:700;margin-top:12px;letter-spacing:-.5px;max-width:760px;line-height:1.12">Chương trình IT bám sát từng cấp lớp</h1>
+        <p style="margin-top:16px;font-size:17.5px;color:#B3C0D8;max-width:680px">Từ những thao tác máy tính đầu tiên ở tiểu học đến kỹ năng đi làm thực chiến — mỗi giai đoạn được thiết kế để kế thừa và phát triển từ giai đoạn trước.</p>
+      </div>
+    </section>
+    <section style="max-width:1100px;margin:0 auto;padding:70px 24px 90px">
+      <div style="display:flex;flex-direction:column;gap:30px">
+        <sc-for list="{{ levels }}" as="lv" hint-placeholder-count="4">
+          <div style="background:#fff;border:1px solid #E4EAF3;border-radius:22px;overflow:hidden;box-shadow:0 1px 3px rgba(16,42,76,.05);display:grid;grid-template-columns:300px 1fr">
+            <div style="padding:34px 30px;background:{{ lv.tint }};display:flex;flex-direction:column;justify-content:space-between">
+              <div>
+                <div style="display:flex;align-items:center;gap:13px">
+                  <span style="width:54px;height:54px;border-radius:14px;background:#fff;color:{{ lv.color }};display:flex;align-items:center;justify-content:center;font-size:27px;box-shadow:0 4px 12px rgba(16,42,76,.1)">{{ lv.icon }}</span>
+                  <span style="font-family:'Lora',serif;font-size:40px;font-weight:700;color:{{ lv.color }};opacity:.5">{{ lv.step }}</span>
+                </div>
+                <div style="margin-top:20px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:{{ lv.color }}">{{ lv.grades }}</div>
+                <div style="font-family:'Lora',serif;font-size:26px;font-weight:700;margin-top:4px;color:#0B1E3F">{{ lv.tag }}</div>
+                <p style="margin-top:12px;font-size:14.5px;color:#46536E;line-height:1.6">{{ lv.short }}</p>
+              </div>
+              <div style="margin-top:24px;padding-top:18px;border-top:1px solid rgba(11,30,63,.1);font-size:13.5px;color:#46536E"><b style="color:#0B1E3F">Mục tiêu:</b> {{ lv.goal }}</div>
+            </div>
+            <div style="padding:34px 34px 38px">
+              <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8593AD">Nội dung học</div>
+              <div style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px 26px">
+                <sc-for list="{{ lv.topics }}" as="tp" hint-placeholder-count="4">
+                  <div style="display:flex;gap:12px;align-items:flex-start">
+                    <span style="flex:none;width:26px;height:26px;border-radius:8px;background:{{ lv.tint }};color:{{ lv.color }};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">{{ tp.n }}</span>
+                    <div>
+                      <div style="font-weight:600;font-size:14.5px;color:#0B1E3F">{{ tp.title }}</div>
+                      <div style="font-size:13px;color:#6A7794;margin-top:2px">{{ tp.note }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <button onClick="{{ lv.open }}" style="margin-top:26px;padding:11px 20px;border-radius:10px;background:{{ lv.tint }};color:{{ lv.color }};font-weight:700;font-size:14px" style-hover="opacity:.85">Xem khóa học cấp này →</button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ============ COURSES LIST PAGE ============ -->
+  <sc-if value="{{ isCourses }}" hint-placeholder-val="{{ true }}">
+  <main>
+    <section style="background:#fff;border-bottom:1px solid #E4EAF3">
+      <div style="max-width:1180px;margin:0 auto;padding:56px 24px 40px">
+        <span style="font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#1E56E3">Khóa học</span>
+        <h1 style="font-family:'Lora',serif;font-size:44px;font-weight:700;margin-top:12px;letter-spacing:-.5px;color:#0B1E3F">Tất cả khóa học tại Nhật Minh</h1>
+        <p style="margin-top:14px;font-size:17px;color:#55617A;max-width:640px">Lọc theo cấp học để tìm khóa phù hợp với con bạn hoặc với mục tiêu nghề nghiệp của bạn.</p>
+        <div style="margin-top:28px;display:flex;gap:10px;flex-wrap:wrap">
+          <sc-for list="{{ filters }}" as="ft" hint-placeholder-count="5">
+            <button onClick="{{ ft.set }}" style="padding:10px 18px;border-radius:100px;font-size:14px;font-weight:600;border:1px solid {{ ft.border }};background:{{ ft.bg }};color:{{ ft.ink }}" style-hover="border-color:#1E56E3">{{ ft.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+    <section style="max-width:1180px;margin:0 auto;padding:44px 24px 90px">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+        <sc-for list="{{ filteredCourses }}" as="c" hint-placeholder-count="6">
+          <button onClick="{{ c.open }}" style="text-align:left;background:#fff;border:1px solid #E4EAF3;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 3px rgba(16,42,76,.05);transition:transform .18s,box-shadow .18s" style-hover="transform:translateY(-4px);box-shadow:0 18px 34px rgba(16,42,76,.1)">
+            <div style="height:140px;background:{{ c.tint }};display:flex;align-items:center;justify-content:center;position:relative">
+              <span style="font-size:48px">{{ c.icon }}</span>
+              <span style="position:absolute;top:13px;left:13px;padding:5px 11px;border-radius:7px;background:rgba(255,255,255,.85);font-size:11.5px;font-weight:700;color:{{ c.color }}">{{ c.levelTag }}</span>
+            </div>
+            <div style="padding:20px 20px 22px;display:flex;flex-direction:column;flex:1">
+              <div style="font-family:'Lora',serif;font-size:20px;font-weight:700;color:#0B1E3F;line-height:1.25">{{ c.title }}</div>
+              <p style="margin-top:9px;font-size:14px;color:#55617A;flex:1">{{ c.blurb }}</p>
+              <div style="margin-top:16px;display:flex;gap:14px;font-size:12.5px;color:#8593AD"><span>🕒 {{ c.duration }}</span><span>📚 {{ c.lessons }}</span></div>
+              <div style="margin-top:14px;display:flex;align-items:flex-end;justify-content:space-between;border-top:1px solid #E9EEF6;padding-top:14px">
+                <span><span style="display:block;font-size:11.5px;color:#8593AD">Học phí chỉ từ</span><span style="font-weight:700;font-size:18px;color:#1E56E3">{{ c.monthlyLabel }}</span><span style="font-size:12px;color:#8593AD">/tháng</span></span>
+                <span style="font-size:13.5px;font-weight:600;color:#1E56E3;white-space:nowrap">Chi tiết →</span>
+              </div>
+            </div>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ============ COURSE DETAIL PAGE ============ -->
+  <sc-if value="{{ isCourse }}" hint-placeholder-val="{{ true }}">
+  <main>
+    <section style="background:#0B1E3F;color:#fff">
+      <div style="max-width:1180px;margin:0 auto;padding:24px 24px 0">
+        <button onClick="{{ goCourses }}" style="font-size:14px;color:#9DAFCC;padding:8px 0" style-hover="color:#fff">← Tất cả khóa học</button>
+      </div>
+      <div style="max-width:1180px;margin:0 auto;padding:18px 24px 64px;display:grid;grid-template-columns:1.4fr .85fr;gap:48px;align-items:start">
+        <div>
+          <span style="display:inline-block;padding:6px 13px;border-radius:8px;background:{{ activeCourse.color }};color:#fff;font-size:12.5px;font-weight:700">{{ activeCourse.levelTag }}</span>
+          <h1 style="font-family:'Lora',serif;font-size:42px;font-weight:700;margin-top:16px;letter-spacing:-.5px;line-height:1.12">{{ activeCourse.title }}</h1>
+          <p style="margin-top:16px;font-size:17.5px;color:#C2CEE3;max-width:580px">{{ activeCourse.long }}</p>
+          <div style="margin-top:28px;display:flex;gap:30px;flex-wrap:wrap">
+            <div><div style="font-size:12.5px;color:#9DAFCC">Thời lượng</div><div style="font-weight:700;font-size:16px;margin-top:3px">{{ activeCourse.duration }}</div></div>
+            <div><div style="font-size:12.5px;color:#9DAFCC">Số buổi</div><div style="font-weight:700;font-size:16px;margin-top:3px">{{ activeCourse.lessons }}</div></div>
+            <div><div style="font-size:12.5px;color:#9DAFCC">Độ tuổi</div><div style="font-weight:700;font-size:16px;margin-top:3px">{{ activeCourse.age }}</div></div>
+            <div><div style="font-size:12.5px;color:#9DAFCC">Hình thức</div><div style="font-weight:700;font-size:16px;margin-top:3px">Offline / Online</div></div>
+          </div>
+        </div>
+        <div style="background:#fff;color:#102A4C;border-radius:20px;padding:28px;box-shadow:0 24px 50px rgba(0,0,0,.3)">
+          <div style="height:130px;border-radius:14px;background:{{ activeCourse.tint }};display:flex;align-items:center;justify-content:center;font-size:54px">{{ activeCourse.icon }}</div>
+          <div style="margin-top:20px">
+            <div style="font-size:13px;color:#8593AD">Học phí chỉ từ</div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin-top:2px">
+              <span style="font-family:'Lora',serif;font-size:34px;font-weight:700;color:#1E56E3">{{ activeCourse.monthlyLabel }}</span>
+              <span style="font-size:14px;color:#8593AD">/ tháng</span>
+            </div>
+            <div style="margin-top:10px;font-size:13.5px;color:#46536E;background:#F2F6FD;border-radius:10px;padding:11px 13px;line-height:1.5">📅 Trọn khóa <b style="color:#0B1E3F">{{ activeCourse.duration }}</b> (~{{ activeCourse.months }} tháng) · đóng học phí theo tháng, linh hoạt</div>
+          </div>
+          <button onClick="{{ goRegister }}" style="margin-top:18px;width:100%;padding:15px;border-radius:12px;background:#1E56E3;color:#fff;font-weight:700;font-size:16px;box-shadow:0 10px 22px rgba(30,86,227,.3)" style-hover="background:#1746C4">Đăng ký học thử miễn phí</button>
+          <div style="margin-top:14px;font-size:13px;color:#6A7794;text-align:center">Buổi học thử đầu tiên hoàn toàn miễn phí</div>
+          <div style="margin-top:18px;padding-top:18px;border-top:1px solid #E9EEF6;display:flex;flex-direction:column;gap:9px">
+            <sc-for list="{{ activeCourse.includes }}" as="inc" hint-placeholder-count="3">
+              <div style="display:flex;gap:9px;font-size:13.5px;color:#46536E"><span style="color:#1E9E6A;font-weight:700">✓</span><span>{{ inc }}</span></div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section style="max-width:1180px;margin:0 auto;padding:64px 24px 90px;display:grid;grid-template-columns:1.4fr .85fr;gap:48px;align-items:start">
+      <div>
+        <h2 style="font-family:'Lora',serif;font-size:28px;font-weight:700;color:#0B1E3F">Bạn sẽ học được gì</h2>
+        <div style="margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <sc-for list="{{ activeCourse.outcomes }}" as="o" hint-placeholder-count="4">
+            <div style="display:flex;gap:11px;background:#fff;border:1px solid #E4EAF3;border-radius:12px;padding:15px 16px"><span style="color:#1E56E3;font-weight:700">✓</span><span style="font-size:14.5px;color:#33415C">{{ o }}</span></div>
+          </sc-for>
+        </div>
+        <h2 style="font-family:'Lora',serif;font-size:28px;font-weight:700;color:#0B1E3F;margin-top:44px">Chương trình chi tiết</h2>
+        <div style="margin-top:20px;display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ activeCourse.modules }}" as="m" hint-placeholder-count="4">
+            <div style="background:#fff;border:1px solid #E4EAF3;border-radius:14px;padding:20px 22px;display:flex;gap:18px;align-items:flex-start">
+              <span style="flex:none;width:40px;height:40px;border-radius:11px;background:{{ activeCourse.tint }};color:{{ activeCourse.color }};display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-weight:700;font-size:18px">{{ m.n }}</span>
+              <div>
+                <div style="font-weight:700;font-size:16.5px;color:#0B1E3F">{{ m.title }}</div>
+                <p style="margin-top:5px;font-size:14px;color:#55617A">{{ m.desc }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <aside style="position:sticky;top:90px">
+        <div style="background:#F8FAFE;border:1px solid #E4EAF3;border-radius:18px;padding:26px">
+          <h3 style="font-family:'Lora',serif;font-size:20px;font-weight:700;color:#0B1E3F">Phù hợp với bạn nếu...</h3>
+          <div style="margin-top:16px;display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ activeCourse.forWho }}" as="fw" hint-placeholder-count="3">
+              <div style="display:flex;gap:10px;font-size:14px;color:#46536E"><span style="color:{{ activeCourse.color }};font-weight:700">●</span><span>{{ fw }}</span></div>
+            </sc-for>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ============ REGISTER PAGE ============ -->
+  <sc-if value="{{ isRegister }}" hint-placeholder-val="{{ true }}">
+  <main>
+    <section style="max-width:1100px;margin:0 auto;padding:60px 24px 90px">
+      <div style="display:grid;grid-template-columns:1fr 1.1fr;gap:54px;align-items:start">
+        <div>
+          <span style="font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#1E56E3">Đăng ký &amp; Liên hệ</span>
+          <h1 style="font-family:'Lora',serif;font-size:42px;font-weight:700;margin-top:12px;letter-spacing:-.5px;color:#0B1E3F;line-height:1.12">Đăng ký buổi học thử miễn phí</h1>
+          <p style="margin-top:16px;font-size:17px;color:#55617A">Để lại thông tin, đội ngũ tư vấn của Nhật Minh sẽ liên hệ trong vòng 24 giờ để sắp xếp buổi học thử phù hợp.</p>
+          <div style="margin-top:34px;display:flex;flex-direction:column;gap:20px">
+            <sc-for list="{{ contactInfo }}" as="ci" hint-placeholder-count="3">
+              <div style="display:flex;gap:15px;align-items:center">
+                <span style="width:48px;height:48px;border-radius:13px;background:#EAF0FE;color:#1E56E3;display:flex;align-items:center;justify-content:center;font-size:21px">{{ ci.icon }}</span>
+                <div><div style="font-size:13px;color:#8593AD">{{ ci.label }}</div><div style="font-weight:700;font-size:16px;color:#0B1E3F;margin-top:1px">{{ ci.value }}</div></div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="margin-top:28px">
+            <div style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8593AD;margin-bottom:14px">Kết nối với chúng tôi</div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+              <sc-for list="{{ socials }}" as="sc" hint-placeholder-count="3">
+                <a href="{{ sc.href }}" target="_blank" style="display:flex;align-items:center;gap:11px;padding:11px 16px;border-radius:12px;background:{{ sc.tint }};border:1px solid {{ sc.tint }}" style-hover="border-color:{{ sc.color }}">
+                  <span style="width:34px;height:34px;border-radius:9px;background:{{ sc.color }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px">{{ sc.icon }}</span>
+                  <span><span style="display:block;font-weight:700;font-size:13.5px;color:#0B1E3F">{{ sc.label }}</span><span style="display:block;font-size:12px;color:#6A7794">{{ sc.value }}</span></span>
+                </a>
+              </sc-for>
+            </div>
+          </div>
+          <div style="margin-top:28px;border-radius:16px;overflow:hidden;height:180px;border:1px solid #E4EAF3;position:relative;background:#E9F0F7">
+            <div style="position:absolute;inset:0;background-image:linear-gradient(#D5E0EE 1px,transparent 1px),linear-gradient(90deg,#D5E0EE 1px,transparent 1px);background-size:34px 34px;opacity:.7"></div>
+            <div style="position:absolute;width:160%;height:20px;background:#fff;top:52%;left:-30%;transform:rotate(-11deg);box-shadow:0 0 0 1px #D7E2EF"></div>
+            <div style="position:absolute;width:20px;height:160%;background:#fff;left:60%;top:-30%;box-shadow:0 0 0 1px #D7E2EF"></div>
+            <div style="position:absolute;width:62px;height:46px;background:#DCEFE0;border-radius:7px;left:13%;top:16%"></div>
+            <div style="position:absolute;width:48px;height:40px;background:#E4EBF4;border-radius:6px;right:14%;bottom:18%"></div>
+            <div style="position:absolute;left:46%;top:40%;transform:translate(-50%,-100%)">
+              <div style="width:30px;height:30px;background:#1E56E3;border-radius:50% 50% 50% 0;transform:rotate(45deg);box-shadow:0 8px 18px rgba(30,86,227,.5);display:flex;align-items:center;justify-content:center">
+                <div style="width:11px;height:11px;background:#fff;border-radius:50%;transform:rotate(-45deg)"></div>
+              </div>
+            </div>
+            <div style="position:absolute;left:12px;bottom:12px;right:12px;background:#fff;border-radius:11px;padding:9px 13px;box-shadow:0 8px 20px rgba(16,42,76,.16);font-size:12.5px;color:#46536E;display:flex;gap:9px;align-items:center"><span style="font-size:15px">📍</span><span><b style="color:#0B1E3F">Nhật Minh Academy</b> · Khu phố 5, P. Tân Khai, Đồng Nai</span></div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E4EAF3;border-radius:22px;padding:38px 36px;box-shadow:0 16px 40px rgba(16,42,76,.08)">
+          <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center;padding:30px 10px">
+              <div style="width:72px;height:72px;border-radius:50%;background:#E4F4EC;color:#1E9E6A;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto">✓</div>
+              <h2 style="font-family:'Lora',serif;font-size:26px;font-weight:700;margin-top:20px;color:#0B1E3F">Đăng ký thành công!</h2>
+              <p style="margin-top:12px;font-size:15.5px;color:#55617A">Cảm ơn bạn đã quan tâm đến Nhật Minh Academy. Chúng tôi sẽ liên hệ với bạn trong vòng 24 giờ.</p>
+              <button onClick="{{ resetForm }}" style="margin-top:26px;padding:13px 26px;border-radius:11px;background:#EAF0FE;color:#1E56E3;font-weight:700;font-size:15px" style-hover="background:#DCE6FB">Đăng ký thêm</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <h2 style="font-family:'Lora',serif;font-size:24px;font-weight:700;color:#0B1E3F">Thông tin đăng ký</h2>
+            <div style="margin-top:24px;display:flex;flex-direction:column;gap:18px">
+              <div>
+                <label style="display:block;font-size:13.5px;font-weight:600;color:#33415C;margin-bottom:7px">Họ tên phụ huynh <span style="color:#D14D6B">*</span></label>
+                <input value="{{ form.parent }}" onChange="{{ onParent }}" placeholder="Nguyễn Văn A" style="width:100%;padding:13px 15px;border-radius:11px;border:1px solid {{ parentBorder }};font-size:15px;background:#F8FAFE;outline:none" style-focus="border-color:#1E56E3;background:#fff">
+                <sc-if value="{{ errors.parent }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:#D14D6B;margin-top:5px">{{ errors.parent }}</div></sc-if>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div>
+                  <label style="display:block;font-size:13.5px;font-weight:600;color:#33415C;margin-bottom:7px">Họ tên học viên</label>
+                  <input value="{{ form.student }}" onChange="{{ onStudent }}" placeholder="Tên của con" style="width:100%;padding:13px 15px;border-radius:11px;border:1px solid #DBE3F0;font-size:15px;background:#F8FAFE;outline:none" style-focus="border-color:#1E56E3;background:#fff">
+                </div>
+                <div>
+                  <label style="display:block;font-size:13.5px;font-weight:600;color:#33415C;margin-bottom:7px">Cấp / Lớp</label>
+                  <select value="{{ form.grade }}" onChange="{{ onGrade }}" style="width:100%;padding:13px 15px;border-radius:11px;border:1px solid #DBE3F0;font-size:15px;background:#F8FAFE;outline:none" style-focus="border-color:#1E56E3;background:#fff">
+                    <option value="">Chọn cấp học</option>
+                    <option value="th">Tiểu học (Lớp 3–5)</option>
+                    <option value="thcs">THCS (Lớp 6–9)</option>
+                    <option value="thpt">THPT (Lớp 10–12)</option>
+                    <option value="work">Người đi làm</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div>
+                  <label style="display:block;font-size:13.5px;font-weight:600;color:#33415C;margin-bottom:7px">Số điện thoại <span style="color:#D14D6B">*</span></label>
+                  <input value="{{ form.phone }}" onChange="{{ onPhone }}" placeholder="09xx xxx xxx" style="width:100%;padding:13px 15px;border-radius:11px;border:1px solid {{ phoneBorder }};font-size:15px;background:#F8FAFE;outline:none" style-focus="border-color:#1E56E3;background:#fff">
+                  <sc-if value="{{ errors.phone }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:#D14D6B;margin-top:5px">{{ errors.phone }}</div></sc-if>
+                </div>
+                <div>
+                  <label style="display:block;font-size:13.5px;font-weight:600;color:#33415C;margin-bottom:7px">Email</label>
+                  <input value="{{ form.email }}" onChange="{{ onEmail }}" placeholder="Email của bạn" style="width:100%;padding:13px 15px;border-radius:11px;border:1px solid #DBE3F0;font-size:15px;background:#F8FAFE;outline:none" style-focus="border-color:#1E56E3;background:#fff">
+                </div>
+              </div>
+              <div>
+                <label style="display:block;font-size:13.5px;font-weight:600;color:#33415C;margin-bottom:7px">Khóa học quan tâm</label>
+                <select value="{{ form.course }}" onChange="{{ onCourse }}" style="width:100%;padding:13px 15px;border-radius:11px;border:1px solid #DBE3F0;font-size:15px;background:#F8FAFE;outline:none" style-focus="border-color:#1E56E3;background:#fff">
+                  <option value="">Chưa xác định / cần tư vấn</option>
+                  <sc-for list="{{ courses }}" as="co" hint-placeholder-count="4">
+                    <option value="{{ co.id }}">{{ co.title }}</option>
+                  </sc-for>
+                </select>
+              </div>
+              <div>
+                <label style="display:block;font-size:13.5px;font-weight:600;color:#33415C;margin-bottom:7px">Lời nhắn</label>
+                <textarea value="{{ form.note }}" onChange="{{ onNote }}" rows="3" placeholder="Câu hỏi hoặc mong muốn của bạn..." style="width:100%;padding:13px 15px;border-radius:11px;border:1px solid #DBE3F0;font-size:15px;background:#F8FAFE;outline:none;resize:vertical" style-focus="border-color:#1E56E3;background:#fff"></textarea>
+              </div>
+              <button onClick="{{ submitForm }}" style="margin-top:4px;width:100%;padding:16px;border-radius:12px;background:#1E56E3;color:#fff;font-weight:700;font-size:16px;box-shadow:0 10px 24px rgba(30,86,227,.3)" style-hover="background:#1746C4">{{ submitLabel }}</button>
+              <p style="font-size:12.5px;color:#8593AD;text-align:center">Bằng việc gửi, bạn đồng ý để Nhật Minh Academy liên hệ tư vấn.</p>
+            </div>
+          </div>
+          </sc-if>
+        </div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ============ BLOG POST PAGE ============ -->
+  <sc-if value="{{ isPost }}" hint-placeholder-val="{{ false }}">
+  <main>
+    <article style="max-width:760px;margin:0 auto;padding:46px 24px 80px">
+      <button onClick="{{ goBlog }}" style="font-size:14px;color:#1E56E3;font-weight:600;padding:8px 0" style-hover="opacity:.7">← Tất cả bài viết</button>
+      <span style="display:inline-block;margin-top:14px;font-size:12.5px;font-weight:700;letter-spacing:.08em;color:#1E56E3">{{ activePost.tag }}</span>
+      <h1 style="font-family:'Lora',serif;font-size:40px;font-weight:700;margin-top:10px;letter-spacing:-.4px;color:#0B1E3F;line-height:1.18;text-wrap:balance">{{ activePost.title }}</h1>
+      <div style="margin-top:20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #E4EAF3;padding-bottom:22px">
+        <span style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#2E6BFF,#1746C4);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-weight:700;font-size:15px">HN</span>
+        <div style="font-size:13.5px;color:#55617A"><div style="font-weight:700;color:#0B1E3F">{{ activePost.author }}</div><div>{{ activePost.date }} · {{ activePost.readTime }}</div></div>
+      </div>
+      <div style="margin-top:26px;height:240px;border-radius:18px;position:relative;overflow:hidden;background:linear-gradient(135deg,{{ activePost.g1 }},{{ activePost.g2 }});display:flex;align-items:center;justify-content:center">
+        <div style="position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.16);top:-50px;right:-30px"></div>
+        <div style="position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.1);bottom:-36px;left:30px"></div>
+        <div style="position:relative;width:84px;height:84px;border-radius:22px;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 14px 30px rgba(0,0,0,.16)">{{ activePost.icon }}</div>
+      </div>
+      <p style="margin-top:28px;font-size:19px;line-height:1.6;color:#33415C;font-weight:500">{{ activePost.lead }}</p>
+      <div>
+        <sc-for list="{{ activePost.body }}" as="b" hint-placeholder-count="3">
+          <h2 style="font-family:'Lora',serif;font-size:23px;font-weight:700;color:#0B1E3F;margin-top:30px">{{ b.h }}</h2>
+          <p style="margin-top:10px;font-size:16.5px;line-height:1.78;color:#46536E">{{ b.p }}</p>
+        </sc-for>
+      </div>
+      <div style="margin-top:44px;background:linear-gradient(120deg,#1E56E3,#1746C4);border-radius:20px;padding:32px;color:#fff;text-align:center">
+        <div style="font-family:'Lora',serif;font-size:24px;font-weight:700">Sẵn sàng bắt đầu hành trình công nghệ?</div>
+        <p style="margin-top:8px;font-size:15px;color:#D9E3FB">Đăng ký buổi học thử miễn phí cùng giảng viên tại Nhật Minh Academy.</p>
+        <button onClick="{{ goRegister }}" style="margin-top:18px;padding:13px 28px;border-radius:11px;background:#fff;color:#1E56E3;font-weight:700;font-size:15px" style-hover="transform:translateY(-2px)">Đăng ký học thử →</button>
+      </div>
+    </article>
+  </main>
+  </sc-if>
+
+  <!-- ============ FLOATING CONTACT ============ -->
+  <div style="position:fixed;right:20px;bottom:20px;z-index:60;display:flex;flex-direction:column;gap:13px;align-items:flex-end">
+    <a href="tel:0984883750" title="Gọi hotline" style="position:relative;width:54px;height:54px;border-radius:50%;background:#1E9E6A;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(30,158,106,.4)" style-hover="transform:scale(1.07)">
+      <span style="position:absolute;inset:0;border-radius:50%;border:2px solid #1E9E6A;animation:nmPulse 1.8s ease-out infinite"></span>
+      <svg viewBox="0 0 24 24" width="23" height="23" fill="#fff"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.4.6 3.6.6.6 0 1 .5 1 1V20c0 .6-.4 1-1 1C9.6 21 3 14.4 3 6c0-.6.5-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1.1l-2.2 2.1z"/></svg>
+    </a>
+    <a href="https://zalo.me/0984883750" target="_blank" title="Chat Zalo" style="width:54px;height:54px;border-radius:50%;background:#0068FF;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;letter-spacing:-.3px;box-shadow:0 10px 24px rgba(0,104,255,.4)" style-hover="transform:scale(1.07)">Zalo</a>
+    <a href="https://m.me/nhatminhacademy" target="_blank" title="Messenger" style="width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#9B4DFF,#7B2FF7);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px rgba(123,47,247,.4)" style-hover="transform:scale(1.07)">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path d="M12 2.4C6.4 2.4 2 6.6 2 11.7c0 2.7 1.2 5 3.2 6.6v3.3l3-1.6c1.2.3 2.5.5 3.8.5 5.6 0 10-4.2 10-9.3S17.6 2.4 12 2.4zm1 12L10.4 12l-3.6 2.4 4-4.2 2.6 2.3 3.5-2.3-4 4z"/></svg>
+    </a>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background:#081730;color:#9DAFCC">
+    <div style="max-width:1180px;margin:0 auto;padding:60px 24px 30px">
+      <div style="display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px">
+        <div>
+          <div style="display:flex;align-items:center;gap:11px">
+            <span style="position:relative;width:42px;height:42px;border-radius:50%;background:linear-gradient(145deg,#4C86FF,#1E56E3 55%,#1340B8);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.4)">
+              <span style="position:absolute;inset:0;border-radius:50%;background:linear-gradient(160deg,rgba(255,255,255,.32),transparent 55%)"></span>
+              <span style="position:relative;font-weight:800;font-size:16px;letter-spacing:-1px;color:#fff">N<span style="color:#9FC0FF">M</span></span>
+            </span>
+            <span style="font-weight:700;font-size:18px;color:#fff;letter-spacing:-.3px">Nhật Minh <span style="color:#6FA0FF">Academy</span></span>
+          </div>
+          <p style="margin-top:16px;font-size:14px;line-height:1.6;max-width:300px">Học viện công nghệ dành cho học sinh và người đi làm — đào tạo IT bài bản theo từng cấp độ.</p>
+          <div style="margin-top:18px;display:flex;gap:10px">
+            <sc-for list="{{ socials }}" as="sc" hint-placeholder-count="3">
+              <a href="{{ sc.href }}" target="_blank" title="{{ sc.label }}" style="width:40px;height:40px;border-radius:11px;background:{{ sc.color }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px" style-hover="opacity:.85">{{ sc.icon }}</a>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:#fff;font-size:14px;margin-bottom:14px">Chương trình</div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+            <button onClick="{{ goRoadmap }}" style="text-align:left;color:#9DAFCC" style-hover="color:#fff">Lộ trình học</button>
+            <button onClick="{{ goCourses }}" style="text-align:left;color:#9DAFCC" style-hover="color:#fff">Khóa học</button>
+            <button onClick="{{ goPricing }}" style="text-align:left;color:#9DAFCC" style-hover="color:#fff">Học phí</button>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:#fff;font-size:14px;margin-bottom:14px">Khám phá</div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+            <button onClick="{{ goTeachers }}" style="text-align:left;color:#9DAFCC" style-hover="color:#fff">Giáo viên</button>
+            <button onClick="{{ goBlog }}" style="text-align:left;color:#9DAFCC" style-hover="color:#fff">Blog &amp; Tin tức</button>
+            <button onClick="{{ goRegister }}" style="text-align:left;color:#9DAFCC" style-hover="color:#fff">Đăng ký học thử</button>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:#fff;font-size:14px;margin-bottom:14px">Liên hệ</div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+            <span>📞 Hotline: 0984 883 750</span>
+            <span>✉ huynh2102<span>@</span>gmail.com</span>
+            <span>📍 Khu phố 5, P. Tân Khai, Đồng Nai</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:44px;padding-top:24px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px">
+        <span>© 2026 Nhật Minh Academy. Bảo lưu mọi quyền.</span>
+        <span>Cùng các em chinh phục công nghệ ❤️</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<template id="__bundler_thumbnail">
+  <div style="width:100%;height:100%;background:linear-gradient(135deg,#2E6BFF,#0B1E3F);display:flex;align-items:center;justify-content:center">
+    <div style="width:40%;height:40%;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-family:sans-serif;font-weight:800;font-size:40px;color:#1E56E3;letter-spacing:-2px">N<span style="color:#7AA3E8">M</span></div>
+  </div>
+</template></x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    page: 'home',
+    activeCourseId: 'python-co-ban',
+    activePostId: 'do-tuoi',
+    filter: 'all',
+    submitted: false,
+    sending: false,
+    form: { parent:'', student:'', grade:'', phone:'', email:'', course:'', note:'' },
+    errors: {}
+  };
+
+  go(page){ this.setState({ page, errors:{} }); if(typeof window!=='undefined') window.scrollTo({top:0}); }
+  goSection(id){
+    const doScroll = () => { const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); };
+    if(this.state.page!=='home'){ this.setState({page:'home'}); setTimeout(doScroll,80); }
+    else doScroll();
+  }
+  openCourse(id){ this.setState({ page:'course', activeCourseId:id }); if(typeof window!=='undefined') window.scrollTo({top:0}); }
+  openPost(id){ this.setState({ page:'post', activePostId:id }); if(typeof window!=='undefined') window.scrollTo({top:0}); }
+  setFilter(f){ this.setState({ filter:f }); }
+
+  setField(k, v){ this.setState(s => ({ form:{...s.form, [k]:v}, errors:{...s.errors, [k]:undefined} })); }
+  async submitForm(){
+    const f = this.state.form; const errors = {};
+    if(!f.parent.trim()) errors.parent = 'Vui lòng nhập họ tên phụ huynh';
+    if(!f.phone.trim()) errors.phone = 'Vui lòng nhập số điện thoại';
+    else if(!/^[0-9+\s().-]{8,}$/.test(f.phone.trim())) errors.phone = 'Số điện thoại chưa hợp lệ';
+    if(Object.keys(errors).length){ this.setState({ errors }); return; }
+    this.setState({ sending:true });
+    const gradeMap = { th:'Tiểu học (Lớp 3–5)', thcs:'THCS (Lớp 6–9)', thpt:'THPT (Lớp 10–12)', work:'Người đi làm' };
+    const courseTitle = (this.COURSES.find(c => c.id===f.course) || {}).title || 'Cần tư vấn';
+    try {
+      await fetch('https://formsubmit.co/ajax/huynh2102@gmail.com', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+        body: JSON.stringify({
+          _subject: 'Đăng ký học thử mới — Nhật Minh Academy',
+          _template: 'table',
+          'Họ tên phụ huynh': f.parent,
+          'Họ tên học viên': f.student || '(chưa điền)',
+          'Cấp / Lớp': gradeMap[f.grade] || '(chưa chọn)',
+          'Số điện thoại': f.phone,
+          'Email': f.email || '(chưa điền)',
+          'Khóa quan tâm': courseTitle,
+          'Lời nhắn': f.note || '(không có)'
+        })
+      });
+    } catch(e) { /* offline/preview: vẫn hiện màn hình thành công */ }
+    this.setState({ submitted:true, sending:false });
+    if(typeof window!=='undefined') window.scrollTo({top:0});
+  }
+  resetForm(){ this.setState({ submitted:false, form:{ parent:'', student:'', grade:'', phone:'', email:'', course:'', note:'' }, errors:{} }); }
+
+  get LEVELS(){
+    return [
+      { id:'th', step:'01', icon:'🧩', tag:'Tiểu học', grades:'Lớp 3 – 5', color:'#D9802E', tint:'#FBEEDF', monthly:1000000,
+        short:'Làm quen máy tính, tư duy máy tính và lập trình kéo–thả qua trò chơi.',
+        goal:'Yêu thích công nghệ và tư duy logic từ sớm.',
+        topics:[
+          {n:'1',title:'Soạn thảo & trình bày',note:'Word, gõ chữ, trình bày văn bản'},
+          {n:'2',title:'Tư duy máy tính',note:'Phân rã, quy luật, thuật toán cơ bản'},
+          {n:'3',title:'Lập trình Scratch',note:'Kéo–thả khối lệnh, kể chuyện'},
+          {n:'4',title:'Làm game đơn giản',note:'Tự tạo game đầu tiên của mình'}
+        ]},
+      { id:'thcs', step:'02', icon:'🐍', tag:'THCS', grades:'Lớp 6 – 9', color:'#1E9E6A', tint:'#E1F3EB', monthly:1200000,
+        short:'Bước vào lập trình thật với Python và thiết kế web căn bản.',
+        goal:'Tự viết được chương trình và trang web nhỏ.',
+        topics:[
+          {n:'1',title:'Python cơ bản',note:'Biến, vòng lặp, hàm, xử lý dữ liệu'},
+          {n:'2',title:'Thiết kế web',note:'HTML, CSS, JavaScript nhập môn'},
+          {n:'3',title:'Tư duy thuật toán',note:'Giải bài toán, cấu trúc dữ liệu cơ bản'},
+          {n:'4',title:'Dự án nhóm',note:'Làm sản phẩm nhỏ theo nhóm'},
+          {n:'5',title:'An toàn thông tin',note:'Kỹ năng số an toàn trên Internet'}
+        ]},
+      { id:'thpt', step:'03', icon:'🤖', tag:'THPT', grades:'Lớp 10 – 12', color:'#5B53D6', tint:'#E9E7FB', monthly:1400000,
+        short:'Nâng cao với AI, dữ liệu và phát triển dự án phần mềm thực tế.',
+        goal:'Hoàn thành dự án thực tế & định hướng nghề IT.',
+        topics:[
+          {n:'1',title:'Trí tuệ nhân tạo (AI)',note:'Machine Learning nhập môn'},
+          {n:'2',title:'Python nâng cao & Data',note:'Phân tích, trực quan hóa dữ liệu'},
+          {n:'3',title:'Phát triển dự án',note:'Xây sản phẩm phần mềm hoàn chỉnh'},
+          {n:'4',title:'Quản lý dự án',note:'Làm việc nhóm, Git, quy trình Agile'}
+        ]},
+      { id:'work', step:'04', icon:'💼', tag:'Đi làm', grades:'Kỹ năng nghề', color:'#D14D6B', tint:'#FAE6EB', monthly:1500000,
+        short:'Khóa chuyên sâu giúp bạn sẵn sàng đi làm trong ngành IT.',
+        goal:'Tự tin ứng tuyển & làm việc chuyên nghiệp.',
+        topics:[
+          {n:'1',title:'Viết CV & Portfolio',note:'Hồ sơ nổi bật, profile cá nhân'},
+          {n:'2',title:'Git & GitHub',note:'Quản lý mã nguồn chuyên nghiệp'},
+          {n:'3',title:'Quản lý việc với Jira',note:'Quy trình làm việc thực tế'},
+          {n:'4',title:'Luyện phỏng vấn',note:'Phỏng vấn kỹ thuật & hành vi'},
+          {n:'5',title:'Apply & đánh giá công ty',note:'Chiến lược ứng tuyển thông minh'},
+          {n:'6',title:'Đàm phán lương (deal lương)',note:'Thương lượng offer hiệu quả'}
+        ]}
+    ];
+  }
+
+  get COURSES(){
+    return [
+      { id:'scratch', lv:'th', title:'Scratch Sáng Tạo', icon:'🎮', duration:'12 tuần', lessons:'24 buổi', age:'8–11 tuổi', price:2400000,
+        blurb:'Lập trình kéo–thả, kể chuyện và làm game đầu tiên cho học sinh tiểu học.',
+        long:'Khóa học giúp các em tiểu học làm quen với lập trình qua Scratch — kéo thả khối lệnh, tạo hoạt hình, kể chuyện và làm những trò chơi đầu tiên của riêng mình.',
+        outcomes:['Hiểu khái niệm lập trình cơ bản','Tự tạo hoạt hình và trò chơi','Phát triển tư duy logic, sáng tạo','Trình bày sản phẩm của mình'],
+        modules:[{n:'1',title:'Khám phá Scratch',desc:'Giao diện, nhân vật, sân khấu'},{n:'2',title:'Chuyển động & sự kiện',desc:'Khối lệnh điều khiển nhân vật'},{n:'3',title:'Vòng lặp & điều kiện',desc:'Tư duy logic qua khối lệnh'},{n:'4',title:'Dự án game cuối khóa',desc:'Tự thiết kế một trò chơi hoàn chỉnh'}],
+        forWho:['Học sinh lớp 3–5 thích máy tính','Muốn phát triển tư duy logic sớm','Chưa từng học lập trình'] },
+      { id:'tin-hoc-nhi', lv:'th', title:'Tin học văn phòng nhí', icon:'📝', duration:'10 tuần', lessons:'20 buổi', age:'8–11 tuổi', price:2000000,
+        blurb:'Soạn thảo văn bản, trình bày và kỹ năng máy tính nền tảng cho học sinh nhỏ.',
+        long:'Trang bị cho các em kỹ năng sử dụng máy tính, soạn thảo và trình bày văn bản, làm slide đơn giản — nền tảng quan trọng cho việc học tập.',
+        outcomes:['Gõ và trình bày văn bản đẹp','Làm slide thuyết trình đơn giản','Sử dụng máy tính an toàn','Quản lý tệp và thư mục'],
+        modules:[{n:'1',title:'Làm quen máy tính',desc:'Thao tác cơ bản, gõ phím'},{n:'2',title:'Soạn thảo văn bản',desc:'Word: định dạng, trình bày'},{n:'3',title:'Trình chiếu',desc:'Tạo slide thuyết trình'},{n:'4',title:'An toàn số',desc:'Kỹ năng dùng Internet an toàn'}],
+        forWho:['Học sinh tiểu học','Cần kỹ năng máy tính nền tảng','Chuẩn bị cho các môn học khác'] },
+      { id:'python-co-ban', lv:'thcs', title:'Python Khởi Đầu', icon:'🐍', duration:'14 tuần', lessons:'28 buổi', age:'11–15 tuổi', price:3200000,
+        blurb:'Bước vào lập trình thật với Python — từ cú pháp đến dự án đầu tay.',
+        long:'Khóa học đưa học sinh THCS từ những dòng code Python đầu tiên đến khả năng tự viết chương trình giải quyết bài toán thực tế. Học qua dự án, thực hành liên tục.',
+        outcomes:['Nắm vững cú pháp Python','Viết chương trình giải bài toán','Làm việc với dữ liệu cơ bản','Hoàn thành dự án cá nhân','Tư duy thuật toán nền tảng','Tự học code hiệu quả'],
+        modules:[{n:'1',title:'Nhập môn Python',desc:'Biến, kiểu dữ liệu, nhập/xuất'},{n:'2',title:'Cấu trúc điều khiển',desc:'Điều kiện, vòng lặp'},{n:'3',title:'Hàm & module',desc:'Tổ chức chương trình rõ ràng'},{n:'4',title:'Cấu trúc dữ liệu',desc:'List, dict, xử lý dữ liệu'},{n:'5',title:'Dự án cuối khóa',desc:'Xây ứng dụng nhỏ hoàn chỉnh'}],
+        includes:['28 buổi học trực tiếp','Tài liệu & bài tập thực hành','Chứng chỉ hoàn thành','Hỗ trợ ngoài giờ'],
+        forWho:['Học sinh THCS muốn học lập trình thật','Đã quen máy tính cơ bản','Hướng tới thi tin học / nghề IT'] },
+      { id:'web-co-ban', lv:'thcs', title:'Lập trình Web căn bản', icon:'🌐', duration:'12 tuần', lessons:'24 buổi', age:'12–15 tuổi', price:3000000,
+        blurb:'Tự xây trang web đầu tiên với HTML, CSS và JavaScript.',
+        long:'Học sinh sẽ tự tay xây dựng những trang web của riêng mình, hiểu cách Internet hoạt động và tạo ra sản phẩm có thể chia sẻ với mọi người.',
+        outcomes:['Xây trang web với HTML/CSS','Thêm tương tác với JavaScript','Thiết kế giao diện đẹp','Đưa web lên Internet'],
+        modules:[{n:'1',title:'HTML nền tảng',desc:'Cấu trúc trang web'},{n:'2',title:'CSS & bố cục',desc:'Trình bày, màu sắc, responsive'},{n:'3',title:'JavaScript nhập môn',desc:'Thêm tương tác cho trang'},{n:'4',title:'Dự án website',desc:'Tự làm và xuất bản trang web'}],
+        forWho:['Thích thiết kế và sáng tạo','Muốn làm sản phẩm chia sẻ được','Học sinh THCS'] },
+      { id:'ai-nhap-mon', lv:'thpt', title:'AI & Machine Learning nhập môn', icon:'🤖', duration:'16 tuần', lessons:'32 buổi', age:'15–18 tuổi', price:4200000,
+        blurb:'Khám phá trí tuệ nhân tạo và xây mô hình ML đầu tiên.',
+        long:'Khóa học dành cho học sinh THPT muốn hiểu sâu về AI — từ khái niệm, toán nền tảng đến tự huấn luyện những mô hình machine learning đầu tiên.',
+        outcomes:['Hiểu nguyên lý AI/ML','Xử lý và phân tích dữ liệu','Huấn luyện mô hình cơ bản','Xây dự án AI thực tế'],
+        modules:[{n:'1',title:'AI là gì?',desc:'Tổng quan và ứng dụng'},{n:'2',title:'Python cho Data',desc:'NumPy, Pandas, trực quan hóa'},{n:'3',title:'Machine Learning',desc:'Mô hình dự đoán, phân loại'},{n:'4',title:'Dự án AI',desc:'Giải bài toán thực tế bằng ML'}],
+        forWho:['Học sinh THPT đam mê công nghệ','Định hướng ngành AI/Data','Đã biết lập trình cơ bản'] },
+      { id:'du-an-phan-mem', lv:'thpt', title:'Dự án Phần mềm thực chiến', icon:'🚀', duration:'14 tuần', lessons:'28 buổi', age:'15–18 tuổi', price:4000000,
+        blurb:'Làm sản phẩm phần mềm hoàn chỉnh theo quy trình như công ty.',
+        long:'Học sinh làm việc theo nhóm để xây dựng một sản phẩm phần mềm thật — từ ý tưởng, thiết kế, lập trình đến trình bày, theo đúng quy trình ngành.',
+        outcomes:['Quản lý dự án với Git & Agile','Làm việc nhóm hiệu quả','Xây sản phẩm hoàn chỉnh','Trình bày & bảo vệ dự án'],
+        modules:[{n:'1',title:'Lên ý tưởng & kế hoạch',desc:'Phân tích yêu cầu, lập kế hoạch'},{n:'2',title:'Thiết kế & lập trình',desc:'Chia việc, code theo nhóm'},{n:'3',title:'Git & quy trình',desc:'Quản lý mã nguồn, Agile'},{n:'4',title:'Demo & bảo vệ',desc:'Trình bày sản phẩm cuối'}],
+        forWho:['Đã có nền lập trình','Muốn trải nghiệm làm việc thật','Xây portfolio cho hồ sơ'] },
+      { id:'git-github', lv:'work', title:'Git & GitHub thành thạo', icon:'🔧', duration:'4 tuần', lessons:'8 buổi', age:'Người đi làm', price:1800000,
+        blurb:'Quản lý mã nguồn chuyên nghiệp như trong môi trường doanh nghiệp.',
+        long:'Khóa học giúp bạn thành thạo Git và GitHub — kỹ năng bắt buộc của mọi lập trình viên, từ commit, branch đến pull request và làm việc nhóm.',
+        outcomes:['Thành thạo Git workflow','Quản lý branch & merge','Cộng tác qua Pull Request','Xử lý conflict tự tin'],
+        modules:[{n:'1',title:'Git nền tảng',desc:'Commit, branch, history'},{n:'2',title:'Làm việc nhóm',desc:'Remote, push/pull, PR'},{n:'3',title:'Xử lý tình huống',desc:'Conflict, revert, rebase'},{n:'4',title:'Quy trình thực tế',desc:'Git flow trong doanh nghiệp'}],
+        includes:['8 buổi học trực tiếp','Bài tập tình huống thực tế','Chứng chỉ hoàn thành'],
+        forWho:['Sinh viên IT chuẩn bị đi làm','Lập trình viên mới','Muốn làm việc nhóm chuyên nghiệp'] },
+      { id:'san-viec-it', lv:'work', title:'Săn việc IT: CV → Phỏng vấn → Offer', icon:'🎯', duration:'6 tuần', lessons:'12 buổi', age:'Người đi làm', price:2800000,
+        blurb:'Trọn bộ kỹ năng đi làm: viết CV, phỏng vấn, apply, đánh giá công ty, deal lương.',
+        long:'Khóa học toàn diện đồng hành cùng bạn từ lúc viết CV đến khi nhận offer mong muốn — bao gồm xây profile, luyện phỏng vấn, chiến lược apply, đánh giá công ty và đàm phán lương.',
+        outcomes:['CV & portfolio chuyên nghiệp','Tự tin phỏng vấn kỹ thuật & hành vi','Chiến lược apply hiệu quả','Đánh giá công ty đúng','Đàm phán lương tự tin','Xây dựng profile cá nhân'],
+        modules:[{n:'1',title:'CV & Portfolio',desc:'Hồ sơ nổi bật, profile online'},{n:'2',title:'Chiến lược Apply',desc:'Tìm & ứng tuyển thông minh'},{n:'3',title:'Luyện phỏng vấn',desc:'Kỹ thuật & hành vi, mock interview'},{n:'4',title:'Đánh giá công ty',desc:'Văn hóa, lộ trình, môi trường'},{n:'5',title:'Đàm phán lương',desc:'Deal lương & offer hiệu quả'}],
+        includes:['12 buổi học trực tiếp','Mock interview 1–1','Review CV cá nhân','Chứng chỉ hoàn thành'],
+        forWho:['Sinh viên năm cuối / mới ra trường','Muốn chuyển ngành sang IT','Đang tìm việc và cần tăng tỉ lệ đậu'] }
+    ];
+  }
+
+  get POSTS(){
+    return [
+      { id:'do-tuoi', icon:'🧩', g1:'#F6A94C', g2:'#E07B2E', tag:'PHỤ HUYNH',
+        title:'Nên cho con học IT từ lớp mấy?', date:'12 Th6, 2026', readTime:'5 phút đọc', author:'Thầy Huỳnh Nguyễn',
+        excerpt:'Độ tuổi vàng để bắt đầu và cách chọn nội dung phù hợp với từng cấp học.',
+        lead:'Nhiều phụ huynh băn khoăn không biết nên cho con tiếp xúc với lập trình từ khi nào. Câu trả lời không nằm ở một con số tuổi cố định, mà ở việc chọn đúng nội dung cho từng giai đoạn.',
+        body:[
+          {h:'Tiểu học: làm quen và tư duy', p:'Từ lớp 3–5, trẻ nên bắt đầu với tư duy máy tính và lập trình kéo–thả như Scratch. Mục tiêu giai đoạn này không phải viết code, mà là nuôi dưỡng sự tò mò và khả năng tư duy logic qua trò chơi.'},
+          {h:'THCS: lập trình thật sự', p:'Khi đã quen tư duy, học sinh THCS có thể bước vào Python và thiết kế web. Đây là lúc các em tạo ra sản phẩm thật và hiểu cách công nghệ vận hành.'},
+          {h:'THPT: chuyên sâu và định hướng', p:'Ở cấp THPT, học sinh có thể đi sâu vào AI, dữ liệu và các dự án thực tế — nền tảng vững chắc nếu muốn theo ngành công nghệ.'},
+          {h:'Lời khuyên', p:'Hãy bắt đầu sớm nhưng đừng vội. Điều quan trọng là con thấy vui và muốn khám phá tiếp, chứ không phải học trước chương trình.'}
+        ] },
+      { id:'scratch-python', icon:'🐍', g1:'#37B987', g2:'#1E9E6A', tag:'HỌC TẬP',
+        title:'Scratch hay Python: bắt đầu từ đâu?', date:'05 Th6, 2026', readTime:'4 phút đọc', author:'Thầy Huỳnh Nguyễn',
+        excerpt:'So sánh hai con đường nhập môn lập trình phổ biến nhất cho học sinh.',
+        lead:'Scratch và Python đều là điểm khởi đầu tốt, nhưng phù hợp với những độ tuổi và mục tiêu khác nhau.',
+        body:[
+          {h:'Scratch — học qua hình ảnh', p:'Scratch dùng các khối lệnh kéo–thả đầy màu sắc, giúp trẻ nhỏ hiểu khái niệm lập trình mà không bị rào cản cú pháp. Rất phù hợp cho học sinh tiểu học.'},
+          {h:'Python — bước vào code thật', p:'Python có cú pháp gần với ngôn ngữ tự nhiên, là lựa chọn tuyệt vời cho học sinh THCS trở lên khi đã sẵn sàng viết những dòng code đầu tiên.'},
+          {h:'Nên chọn gì?', p:'Nếu con dưới 11 tuổi, hãy bắt đầu với Scratch. Lớn hơn hoặc đã quen tư duy lập trình thì Python là bước tiến tự nhiên tiếp theo.'}
+        ] },
+      { id:'cv-it', icon:'🎯', g1:'#7C74E8', g2:'#5B53D6', tag:'NGHỀ NGHIỆP',
+        title:'Chuẩn bị CV IT cho người mới', date:'28 Th5, 2026', readTime:'6 phút đọc', author:'Thầy Huỳnh Nguyễn',
+        excerpt:'Những điều nhà tuyển dụng thật sự tìm kiếm ở một hồ sơ fresher.',
+        lead:'Với người mới đi làm, CV không cần dài — nó cần rõ ràng, trung thực và cho thấy bạn đã làm được gì.',
+        body:[
+          {h:'Dự án quan trọng hơn bằng cấp', p:'Nhà tuyển dụng fresher quan tâm bạn đã xây được gì. Hãy đưa 2–3 dự án tiêu biểu kèm link GitHub và mô tả ngắn vai trò của bạn.'},
+          {h:'Ngắn gọn và đúng trọng tâm', p:'Một trang là đủ. Tập trung vào kỹ năng, dự án và công nghệ bạn thành thạo, tránh liệt kê lan man.'},
+          {h:'Đừng quên kỹ năng mềm', p:'Khả năng làm việc nhóm, giao tiếp và tự học là điểm cộng lớn — hãy thể hiện qua ví dụ cụ thể thay vì chỉ kể tên.'}
+        ] }
+    ];
+  }
+
+  fmt(n){ return new Intl.NumberFormat('vi-VN').format(n) + 'đ'; }
+
+  decorate(c){
+    const lv = this.LEVELS.find(l => l.id===c.lv);
+    const weeks = parseInt(c.duration,10) || 4;
+    const months = weeks/4;
+    const monthly = lv.monthly;
+    const total = Math.round(monthly*months/100000)*100000;
+    return { ...c, color:lv.color, tint:lv.tint, levelTag:lv.tag,
+      monthly, monthlyLabel:this.fmt(monthly), totalLabel:this.fmt(total),
+      months: Number.isInteger(months) ? String(months) : months.toFixed(1),
+      priceLabel:this.fmt(total),
+      open:()=>this.openCourse(c.id),
+      includes:c.includes || ['Tài liệu học tập đầy đủ','Chứng chỉ hoàn thành','Hỗ trợ từ giảng viên'] };
+  }
+
+  renderVals(){
+    const page = this.state.page;
+    const courses = this.COURSES.map(c => this.decorate(c));
+    const levels = this.LEVELS.map(lv => ({ ...lv, open:()=>{ this.setFilter(lv.id); this.go('courses'); } }));
+
+    const filtered = this.state.filter==='all' ? courses : courses.filter(c => c.lv===this.state.filter);
+    const filterDefs = [{id:'all',label:'Tất cả'}].concat(this.LEVELS.map(l=>({id:l.id,label:l.tag})));
+    const filters = filterDefs.map(f => {
+      const on = this.state.filter===f.id;
+      return { label:f.label, set:()=>this.setFilter(f.id),
+        bg:on?'#1E56E3':'#fff', ink:on?'#fff':'#46536E', border:on?'#1E56E3':'#D3DCEB' };
+    });
+
+    const active = courses.find(c => c.id===this.state.activeCourseId) || courses[2];
+    const posts = this.POSTS.map(p => ({ ...p, open:()=>this.openPost(p.id) }));
+    const activePost = posts.find(p => p.id===this.state.activePostId) || posts[0];
+    const f = this.state.form, e = this.state.errors;
+
+    return {
+      isHome: page==='home', isRoadmap: page==='roadmap', isCourses: page==='courses',
+      isCourse: page==='course', isRegister: page==='register', isPost: page==='post',
+      activePost,
+      goHome:()=>this.go('home'), goRoadmap:()=>this.go('roadmap'), goCourses:()=>this.go('courses'),
+      goRegister:()=>this.go('register'), goPricing:()=>this.goSection('pricing'), goBlog:()=>this.goSection('blog'),
+      goTeachers:()=>this.goSection('teachers'),
+      teachers:[
+        { initials:'HN', name:'Thầy Huỳnh Nguyễn', role:'Nhà sáng lập · Giảng viên chính', exp:'7 năm phần mềm',
+          creds:[
+            {icon:'🎓',text:'Cử nhân Khoa học Máy tính'},
+            {icon:'🏛️',text:'ĐH Công nghệ Thông tin TP.HCM'},
+            {icon:'💼',text:'7 năm kinh nghiệm lập trình phần mềm'}
+          ],
+          tags:['Python','AI / ML','Lập trình Web','Git & GitHub','Luyện phỏng vấn'],
+          bio:'Với 7 năm kinh nghiệm trong ngành phần mềm, thầy Huỳnh Nguyễn trực tiếp xây dựng và đứng lớp tại Nhật Minh — học viện mang tên con trai mình, với mong muốn truyền cảm hứng công nghệ cho học viên ở mọi lứa tuổi.' }
+      ],
+      navLinks:[
+        {label:'Trang chủ', go:()=>this.go('home'), color: page==='home'?'#1E56E3':'#46536E'},
+        {label:'Lộ trình', go:()=>this.go('roadmap'), color: page==='roadmap'?'#1E56E3':'#46536E'},
+        {label:'Khóa học', go:()=>this.go('courses'), color:(page==='courses'||page==='course')?'#1E56E3':'#46536E'},
+        {label:'Học phí', go:()=>this.goSection('pricing'), color:'#46536E'},
+        {label:'Blog', go:()=>this.goSection('blog'), color:'#46536E'}
+      ],
+      levels, courses, filteredCourses:filtered, filters,
+      featuredCourses:[courses[0],courses[2],courses[4],courses[7]],
+      activeCourse:active,
+      heroStats:[{num:'4',label:'Cấp độ học tập'},{num:'15+',label:'Khóa học chuyên sâu'},{num:'100%',label:'Học qua dự án'}],
+      trustLogos:['Scratch','Python','GitHub','AI · ML','Jira'],
+      whyUs:[
+        {icon:'🪜',title:'Lộ trình theo cấp lớp',desc:'Chương trình thiết kế riêng cho từng độ tuổi, kế thừa liền mạch từ tiểu học đến đi làm.'},
+        {icon:'🛠️',title:'Học qua dự án thực tế',desc:'Mỗi khóa đều kết thúc bằng một sản phẩm thật để học viên tự hào.'},
+        {icon:'👩‍🏫',title:'Giảng viên đồng hành',desc:'Lớp nhỏ, hỗ trợ ngoài giờ, theo sát tiến độ từng học viên.'},
+        {icon:'📜',title:'Cam kết đầu ra',desc:'Chứng chỉ và portfolio rõ ràng sau mỗi khóa học.'}
+      ],
+      plans:[
+        {name:'Đóng theo tháng',desc:'Linh hoạt, không ràng buộc',pre:'',price:'1tr',unit:'/ tháng',featured:false,
+          bg:'#0F2752',border:'rgba(255,255,255,.12)',ink:'#fff',sub:'#9DAFCC',check:'#6FA0FF',
+          btnBg:'transparent',btnInk:'#fff',btnBorder:'1px solid rgba(255,255,255,.3)',cta:'Bắt đầu học',
+          features:['Học 2 buổi/tuần (8 buổi/tháng)','Tài liệu & bài tập','Học thử miễn phí','Đóng từng tháng linh hoạt']},
+        {name:'Combo học kỳ',desc:'Cam kết 1 học kỳ · 4 tháng',pre:'từ',price:'3.8tr',unit:'/ học kỳ',featured:true,
+          bg:'#fff',border:'transparent',ink:'#102A4C',sub:'#6A7794',check:'#1E9E6A',
+          btnBg:'#1E56E3',btnInk:'#fff',btnBorder:'none',cta:'Chọn gói này',
+          features:['Tiết kiệm 5% học phí','Hỗ trợ ngoài giờ','Báo cáo tiến độ định kỳ','Chứng chỉ + portfolio']},
+        {name:'Combo cả năm',desc:'Đồng hành trọn năm học · 9 tháng',pre:'từ',price:'8.1tr',unit:'/ năm',featured:false,
+          bg:'#0F2752',border:'rgba(255,255,255,.12)',ink:'#fff',sub:'#9DAFCC',check:'#6FA0FF',
+          btnBg:'transparent',btnInk:'#fff',btnBorder:'1px solid rgba(255,255,255,.3)',cta:'Tư vấn lộ trình',
+          features:['Tiết kiệm 10% học phí','Mentor cá nhân','Dự án tốt nghiệp','Ưu tiên lớp & lịch học']}
+      ],
+      posts,
+      contactInfo:[
+        {icon:'📞',label:'Hotline tư vấn',value:'0984 883 750'},
+        {icon:'✉️',label:'Email',value:'huynh2102'+'\u200b'+'@gmail.com'},
+        {icon:'📍',label:'Cơ sở',value:'Khu phố 5, P. Tân Khai, Đồng Nai (gần Viện Kiểm Sát Khu Vực 10)'}
+      ],
+      socials:[
+        {icon:'💬',label:'Zalo',value:'0984 883 750',color:'#0068FF',tint:'#E5EFFF',href:'https://zalo.me/0984883750'},
+        {icon:'💬',label:'Messenger',value:'m.me/nhatminhacademy',color:'#A033FF',tint:'#F1E8FF',href:'https://m.me/nhatminhacademy'},
+        {icon:'👍',label:'Facebook Fanpage',value:'fb.com/nhatminhacademy',color:'#1877F2',tint:'#E7F0FE',href:'https://facebook.com/nhatminhacademy'}
+      ],
+      filter:this.state.filter,
+      submitted:this.state.submitted, notSubmitted:!this.state.submitted,
+      form:f, errors:e,
+      parentBorder: e.parent ? '#E89BAB' : '#DBE3F0',
+      phoneBorder: e.phone ? '#E89BAB' : '#DBE3F0',
+      onParent:(ev)=>this.setField('parent',ev.target.value),
+      onStudent:(ev)=>this.setField('student',ev.target.value),
+      onGrade:(ev)=>this.setField('grade',ev.target.value),
+      onPhone:(ev)=>this.setField('phone',ev.target.value),
+      onEmail:(ev)=>this.setField('email',ev.target.value),
+      onCourse:(ev)=>this.setField('course',ev.target.value),
+      onNote:(ev)=>this.setField('note',ev.target.value),
+      submitForm:()=>this.submitForm(), resetForm:()=>this.resetForm(),
+      submitLabel: this.state.sending ? 'Đang gửi...' : 'Gửi đăng ký học thử'
+    };
+  }
+}
+</script>
+</body>
+</html>
